@@ -1,15 +1,29 @@
 <template>
   <div>
-    <p>Need Help?</p>
+    <a class="button is-success" @click="launchHelpDialog">Need help?</a>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Index',
+  methods: {
+    launchHelpDialog() {
+      this.$dialog.alert({
+        type: 'is-success',
+        title: 'How to use',
+        message: this.dialogMsg,
+        confirmText: 'Alright!',
+      });
+    },
+  },
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      dialogMsg:
+      `To use this tool simply enter your steam ID in the box above. Your
+      stats will be showed right below in the area you just clicked this help
+      button in! By pressing advanced, you'll be shown advanced data including
+      map stats, weapon data, and more!`,
     };
   },
 };
