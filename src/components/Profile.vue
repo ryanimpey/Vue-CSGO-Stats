@@ -5,11 +5,14 @@
 </template>
 
 <script>
+import steamAPIKey from '../assets/keys';
+
 export default {
   name: 'HelloWorld',
   data() {
     return {
       msg: this.$route.params.username,
+      steamKey: steamAPIKey,
     };
   },
 };
