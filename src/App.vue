@@ -14,7 +14,7 @@
               <p class="subtitle is-5">Quick and simple stats checker for CS:GO</p>
               <div class="field has-addons">
                 <div class="control has-icons-right">
-                  <input class="input" type="text" v-model="steamusername" placeholder="Steam Username">
+                  <input class="input" type="text" v-model="steamusername" v-on:keyup.enter="geturl" placeholder="Steam Username">
                   <span class="icon is-small is-right">
                     <i class="fa fa-steam"></i>
                   </span>
