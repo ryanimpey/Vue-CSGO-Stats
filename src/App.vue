@@ -12,13 +12,18 @@
             <div class="column is-3 has-text-centered">
               <p class="title is-3">CS:GO Stats</p>
               <p class="subtitle is-5">Quick and simple stats checker for CS:GO</p>
-              <div class="field">
-                <p class="control has-icons-right">
-                  <input class="input" type="email" placeholder="Steam Username">
+              <div class="field has-addons">
+                <div class="control has-icons-right">
+                  <input class="input" type="text" v-model="steamusername" placeholder="Steam Username">
                   <span class="icon is-small is-right">
                     <i class="fa fa-steam"></i>
                   </span>
-                </p>
+                </div>
+                <div class="control">
+                  <a class="button is-success" v-bind:href="steamuserdata">
+                    Go!
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -34,6 +39,23 @@
 <script>
 export default {
   name: 'app',
+  data() {
+    return {
+      steamusername: '',
+      steamuserurl: '/user/',
+      steamuserdata: '/user',
+    };
+  },
+  methods: {
+    geturl: () => {
+      this.steamuserdata = this.steamuserurl + this.steamusername;
+    },
+  },
+  mounted() {
+    window.addEventListener('keyup', () => {
+      this.steamuserdata = this.steamuserurl + this.steamusername;
+    });
+  },
 };
 </script>
 
@@ -43,11 +65,11 @@ img {
   height: 65px;
 }
 
-.hero{
+.hero {
   background: url('./assets/images/background.jpg');
 }
 
-.logo-container{
+.logo-container {
   display: flex;
   justify-content: center;
 }
