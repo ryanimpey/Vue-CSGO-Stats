@@ -1,6 +1,6 @@
 # vue-csgo-stats
 
-> CSGO Stats using Vue.js
+> CSGO Stats Frontend using Vue.js
 
 ## Build Setup
 
@@ -18,4 +18,11 @@ npm run build
 npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### How to use
+
+In order to make a connection to the steam dev servers, you'll need:
+
+* A steam Dev API key
+* A local server such as Express to make a GET request (CORS)
+
+Or you can use the one listed here! (Listing coming soon!)
