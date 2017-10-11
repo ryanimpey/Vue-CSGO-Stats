@@ -3,10 +3,102 @@
     <div class="columns">
       <div class="column is-2 is-offset-4 profile-text">
         <p class="title is-4">{{ this.$route.params.username }} </p>
-        <p class="subtitle is-6"><a target="_blank" rel="noopener noreferrer" v-bind:href="steamURLValue">{{ steamUserID }}</a></p>
+        <p class="subtitle is-6">
+          <a target="_blank" rel="noopener noreferrer" v-bind:href="steamURLValue">{{ steamUserID }}</a>
+        </p>
+
       </div>
       <div class="column is-2">
         <img v-bind:src="steamUserAvatar" class="profile-avatar is-pulled-right">
+      </div>
+    </div>
+    <br>
+    <div class="columns">
+      <div class="column is-4 is-offset-2 has-text-centered">
+        <div class="statistic">
+          <p class="title is-4">
+            <span class="icon has-text-info">
+              <i class="fa fa-superpowers has-text-white"></i>
+            </span>
+            <span>Kills</span>
+          </p>
+          <p class="subtitle is-5">{{steamUserStats[0].value}}</p>
+        </div>
+        <div class="statistic">
+          <p class="title is-4">
+            <span class="icon has-text-info">
+              <i class="fa fa-clock-o has-text-white"></i>
+            </span>
+            <span>Time Played</span>
+          </p>
+          <p class="subtitle is-5">{{steamUserStats[2].value}}</p>
+        </div>
+        <div class="statistic">
+          <p class="title is-4">
+            <span class="icon has-text-info">
+              <i class="fa fa-bomb has-text-white"></i>
+            </span>
+            <span>Bombs Planted</span>
+          </p>
+          <p class="subtitle is-5">{{steamUserStats[3].value}}</p>
+        </div>
+        <div class="statistic">
+          <p class="title is-4">
+            <span class="icon has-text-info">
+              <i class="fa fa-user-times has-text-white"></i>
+            </span>
+            <span>Damage Done</span>
+          </p>
+          <p class="subtitle is-5">{{steamUserStats[6].value}}</p>
+        </div>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <div class="statistic">
+          <p class="title is-4">
+            <span class="icon has-text-info">
+              <i class="fa fa-remove has-text-white"></i>
+            </span>
+            <span>Kills</span>
+          </p>
+          <p class="subtitle is-5">{{steamUserStats[1].value}}</p>
+        </div>
+        <div class="statistic">
+          <p class="title is-4">
+            <span class="icon has-text-info">
+              <i class="fa fa-trophy has-text-white"></i>
+            </span>
+            <span>Wins</span>
+          </p>
+          <p class="subtitle is-5">{{steamUserStats[5].value}}</p>
+        </div>
+        <div class="statistic">
+          <p class="title is-4">
+            <span class="icon has-text-info">
+              <i class="fa fa-bomb has-text-white"></i>
+            </span>
+            <span>Bombs Defused</span>
+          </p>
+          <p class="subtitle is-5">{{steamUserStats[4].value}}</p>
+        </div>
+        <div class="statistic">
+          <p class="title is-4">
+            <span class="icon has-text-info">
+              <i class="fa fa-usd has-text-white"></i>
+            </span>
+            <span>Money Earned</span>
+          </p>
+          <p class="subtitle is-5">{{steamUserStats[7].value}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column is-2 is-offset-5 has-text-centered">
+        <p class="subtitle is-5">
+          <span>Advanced</span>
+          <span class="icon has-text-info">
+            <i class="fa fa-chevron-down has-text-white"></i>
+          </span>
+        </p>
       </div>
     </div>
   </div>
@@ -32,7 +124,8 @@ export default {
         }, 1000);
       },
       (callback) => {
-        callback(null, '3');
+        this.getGameStats();
+        callback(null, 'Get Game Stats');
       },
     ], (error, results) => {
       console.log(results);
@@ -41,25 +134,32 @@ export default {
   methods: {
     getSteamID() {
       axios.get(`http://localhost:3000/steamid?username=${this.$route.params.username}`)
-      .then((response) => {
-        this.steamUserID = response.request.response;
-        console.log(response);
-        this.steamURLValue = `http://steamcommunity.com/profiles/${this.steamUserID}`;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => {
+          this.steamUserID = response.request.response;
+          this.steamURLValue = `http://steamcommunity.com/profiles/${this.steamUserID}`;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     getSteamStats() {
       axios.get(`http://localhost:3000/steamstats?steamid=${this.steamUserID}`)
-      .then((response) => {
-        this.steamUserStats = response;
-        this.steamUserAvatar = response.data.avatarmedium;
-        console.log(this.steamUserStats.data.avatarmedium);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => {
+          this.steamUserAvatar = response.data.avatarmedium;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getGameStats() {
+      axios.get(`http://localhost:3000/gamestats?steamid=${this.steamUserID}`)
+        .then((response) => {
+          this.steamUserStats = response.data.playerstats.stats;
+          console.log(this.steamUserStats);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   data() {
@@ -77,11 +177,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .profile-text{
-    margin-top: 10px;
-  }
-  .profile-avatar{
-    height: 60px;
-    border-radius: 360px;
-  }
+.profile-text {
+  margin-top: 10px;
+}
+
+.profile-avatar {
+  height: 60px;
+  border-radius: 360px;
+}
+
+.statistic {
+  padding-bottom: 15px;
+}
 </style>
