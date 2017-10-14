@@ -1,6 +1,8 @@
 <template>
   <div>
     <a class="button is-success" @click="launchHelpDialog">Need help?</a>
+    <div>
+    </div>
   </div>
 </template>
 

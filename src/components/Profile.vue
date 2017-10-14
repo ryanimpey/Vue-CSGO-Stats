@@ -108,9 +108,13 @@
 import axios from 'axios';
 import async from 'async';
 import steamAPIKey from '../assets/keys';
+import Statistic from './Statistic';
 
 export default {
   name: 'Profile',
+  components: {
+    Statistic,
+  },
   beforeMount() {
     async.series([
       (callback) => {
