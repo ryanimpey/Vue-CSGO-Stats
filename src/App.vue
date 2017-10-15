@@ -10,7 +10,7 @@
           </div>
           <div class="columns is-centered">
             <div class="column is-3 has-text-centered">
-              <p class="title is-3">CS:GO Stats</p>
+              <p class="title is-3" @click="routerpush">CS:GO Stats</p>
               <p class="subtitle is-5">Quick and simple stats checker for CS:GO</p>
               <div class="field has-addons">
                 <div class="control has-icons-right">
@@ -37,6 +37,8 @@
 </template>
 
 <script>
+// import Router from './router/';
+
 export default {
   name: 'app',
   data() {
@@ -49,6 +51,9 @@ export default {
   methods: {
     geturl: () => {
       this.steamuserdata = this.steamuserurl + this.steamusername;
+    },
+    routerpush: () => {
+      // Router.push('/user/r1mp3x');
     },
   },
   mounted() {
