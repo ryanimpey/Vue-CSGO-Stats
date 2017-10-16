@@ -42,31 +42,41 @@
 
 <script>
 import Statistic from './Statistic';
+import Router from '../router';
 
 export default {
   name: 'Profile',
   components: {
     Statistic,
   },
-  beforeMount() {
-    console.log(this.steamName);
+  created() {
+    if (!this.successfulPass) {
+      Router.push('/');
+    }
   },
   props: {
     steamName: {
       required: true,
       type: String,
+      default: 'Name',
     },
     steamID: {
       type: String,
       required: true,
+      default: 'ID',
     },
     steamPicture: {
       type: String,
       required: true,
+      default: 'Picture',
     },
     steamStats: {
       type: Array,
       required: true,
+      default: 'Stats',
+    },
+    successfulPass: {
+      default: false,
     },
   },
   data() {

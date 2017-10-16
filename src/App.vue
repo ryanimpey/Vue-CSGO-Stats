@@ -13,7 +13,7 @@
             <p class="subtitle is-5">Quick and simple stats checker for CS:GO</p>
             <div class="field has-addons">
               <div class="control has-icons-right">
-                <input class="input" type="text" v-model="steamUsername" placeholder="Steam Username">
+                <input class="input" type="text" v-model="steamUsername" v-on:keyup.enter="submitRequest" placeholder="Steam Username">
                 <span class="icon is-small is-right">
                   <i class="fa fa-steam"></i>
                 </span>
@@ -79,7 +79,6 @@ export default {
         message: 'Data retrieved!',
         type: 'is-success',
       });
-      console.log(`Beforepush: ${this.steamUsername}`);
 
       // Disable loading
       this.isLoading = false;
@@ -95,6 +94,7 @@ export default {
           steamID: this.steamID,
           steamPicture: this.steamProfilePicture,
           steamStats: this.steamCSGOStats,
+          successfulPass: true,
         },
       });
     },
@@ -105,7 +105,6 @@ export default {
     steamInput.addEventListener('keyup', () => {
       self.steamRouterLink = `user/${this.steamUsername}`;
     });
-    console.log(this.steamUsername);
   },
 };
 </script>
