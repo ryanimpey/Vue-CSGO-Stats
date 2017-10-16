@@ -1,28 +1,23 @@
 <template>
   <div id="app">
     <section class="hero is-info is-fullheight">
-      <div class="hero-body">
         <div class="container">
           <div class="columns is-centered">
             <div class="column is-3 logo-container">
-              <img src="./assets/svg/csgo-logo.svg">
+              <a href="/"><img src="./assets/svg/csgo-logo.svg"></a>
             </div>
           </div>
           <div class="columns is-centered">
             <div class="column is-3 has-text-centered">
-              <p class="title is-3" @click="routerpush">CS:GO Stats</p>
+              <p class="title is-3">CS:GO Stats</p>
               <p class="subtitle is-5">Quick and simple stats checker for CS:GO</p>
               <div class="field has-addons">
                 <div class="control has-icons-right">
-                  <input class="input" type="text" v-model="steamusername" v-on:keyup.enter="geturl" placeholder="Steam Username">
-                  <span class="icon is-small is-right">
-                    <i class="fa fa-steam"></i>
-                  </span>
+                  <input class="input" type="text" v-model="steamusername" placeholder="Steam Username">
+                  <span class="icon is-small is-right"><i class="fa fa-steam"></i></span>
                 </div>
                 <div class="control">
-                  <a class="button is-success" v-bind:href="steamuserdata">
-                    Go!
-                  </a>
+                  <button class="button is-success">Go!</button>
                 </div>
               </div>
             </div>
@@ -31,7 +26,6 @@
             <router-view/>
           </div>
         </div>
-      </div>
     </section>
   </div>
 </template>
@@ -44,21 +38,19 @@ export default {
   data() {
     return {
       steamusername: '',
-      steamuserurl: '/user/',
-      steamuserdata: '/user',
+      steamuserdata: '',
     };
   },
   methods: {
-    geturl: () => {
-      this.steamuserdata = this.steamuserurl + this.steamusername;
-    },
     routerpush: () => {
       // Router.push('/user/r1mp3x');
     },
   },
   mounted() {
-    window.addEventListener('keyup', () => {
-      this.steamuserdata = this.steamuserurl + this.steamusername;
+    const steamInput = document.getElementsByClassName('input')[0];
+    steamInput.addEventListener('keyup', () => {
+      this.steamuserdata = `/user/${this.steamusername}`;
+      console.log(this.steamuserdata);
     });
   },
 };
@@ -66,6 +58,9 @@ export default {
 
 
 <style scoped>
+.hero{
+  padding-top: 50px;
+}
 img {
   height: 65px;
 }
