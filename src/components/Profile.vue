@@ -15,80 +15,16 @@
     <br>
     <div class="columns">
       <div class="column is-4 is-offset-2 has-text-centered">
-        <div class="statistic">
-          <p class="title is-4">
-            <span class="icon has-text-info">
-              <i class="fa fa-superpowers has-text-white"></i>
-            </span>
-            <span>Kills</span>
-          </p>
-          <p class="subtitle is-5">{{steamUserStats[0].value}}</p>
-        </div>
-        <div class="statistic">
-          <p class="title is-4">
-            <span class="icon has-text-info">
-              <i class="fa fa-clock-o has-text-white"></i>
-            </span>
-            <span>Time Played</span>
-          </p>
-          <p class="subtitle is-5">{{steamUserStats[2].value}}</p>
-        </div>
-        <div class="statistic">
-          <p class="title is-4">
-            <span class="icon has-text-info">
-              <i class="fa fa-bomb has-text-white"></i>
-            </span>
-            <span>Bombs Planted</span>
-          </p>
-          <p class="subtitle is-5">{{steamUserStats[3].value}}</p>
-        </div>
-        <div class="statistic">
-          <p class="title is-4">
-            <span class="icon has-text-info">
-              <i class="fa fa-user-times has-text-white"></i>
-            </span>
-            <span>Damage Done</span>
-          </p>
-          <p class="subtitle is-5">{{steamUserStats[6].value}}</p>
-        </div>
+        <statistic statTitle="Kills" v-bind:statDesc="steamUserStats[0].value" statIcon="fa-superpowers" />
+        <statistic statTitle="Time Played" v-bind:statDesc="steamUserStats[2].value" statIcon="fa-clock-o" />
+        <statistic statTitle="Bombs Planted" v-bind:statDesc="steamUserStats[3].value" statIcon="fa-bomb" />
+        <statistic statTitle="Damage Done" v-bind:statDesc="steamUserStats[6].value" statIcon="fa-user-times" />
       </div>
       <div class="column is-4 has-text-centered">
-        <div class="statistic">
-          <p class="title is-4">
-            <span class="icon has-text-info">
-              <i class="fa fa-remove has-text-white"></i>
-            </span>
-            <span>Kills</span>
-          </p>
-          <p class="subtitle is-5">{{steamUserStats[1].value}}</p>
-        </div>
-        <div class="statistic">
-          <p class="title is-4">
-            <span class="icon has-text-info">
-              <i class="fa fa-trophy has-text-white"></i>
-            </span>
-            <span>Wins</span>
-          </p>
-          <p class="subtitle is-5">{{steamUserStats[5].value}}</p>
-        </div>
-        <div class="statistic">
-          <p class="title is-4">
-            <span class="icon has-text-info">
-              <i class="fa fa-bomb has-text-white"></i>
-            </span>
-            <span>Bombs Defused</span>
-          </p>
-          <p class="subtitle is-5">{{steamUserStats[4].value}}</p>
-        </div>
-        <div class="statistic">
-          <p class="title is-4">
-            <span class="icon has-text-info">
-              <i class="fa fa-usd has-text-white"></i>
-            </span>
-            <span>Money Earned</span>
-          </p>
-          <p class="subtitle is-5">{{steamUserStats[7].value}}</p>
-        </div>
+        <statistic statTitle="Deaths" v-bind:statDesc="steamUserStats[1].value" statIcon="fa-remove" />
+        <statistic statTitle="Wins" v-bind:statDesc="steamUserStats[5].value" statIcon="fa-trophy" />
+        <statistic statTitle="Bombs Defused" v-bind:statDesc="steamUserStats[4].value" statIcon="fa-bomb" />
+        <statistic statTitle="Money Earned" v-bind:statDesc="steamUserStats[7].value" statIcon="fa-usd" />
       </div>
     </div>
     <div class="columns">
