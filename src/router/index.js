@@ -16,7 +16,7 @@ export default new Router({
     },
     {
       path: '/user/:username',
-      name: 'Profile Stats',
+      name: 'Profile',
       component: Profile,
       meta: { title: 'CSGO Stats Viewer' },
     },
