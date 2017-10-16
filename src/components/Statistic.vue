@@ -15,11 +15,9 @@ export default {
   name: 'Statistic',
   props: {
     statTitle: {
-      type: String,
       required: true,
     },
     statDesc: {
-      type: String,
       required: true,
     },
     statIcon: {

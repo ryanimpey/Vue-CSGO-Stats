@@ -15,16 +15,16 @@
     <br>
     <div class="columns">
       <div class="column is-4 is-offset-2 has-text-centered">
-        <statistic statTitle="Kills" v-bind:statDesc="steamUserStats[0].value" statIcon="fa-superpowers" />
-        <statistic statTitle="Time Played" v-bind:statDesc="steamUserStats[2].value" statIcon="fa-clock-o" />
-        <statistic statTitle="Bombs Planted" v-bind:statDesc="steamUserStats[3].value" statIcon="fa-bomb" />
-        <statistic statTitle="Damage Done" v-bind:statDesc="steamUserStats[6].value" statIcon="fa-user-times" />
+        <statistic statTitle="Kills" v-bind:statDesc="steamStatisticsHolder[0]" statIcon="fa-superpowers" />
+        <statistic statTitle="Time Played" v-bind:statDesc="steamStatisticsHolder[1]" statIcon="fa-clock-o" />
+        <statistic statTitle="Bombs Planted" v-bind:statDesc="steamStatisticsHolder[2]" statIcon="fa-bomb" />
+        <statistic statTitle="Damage Done" v-bind:statDesc="steamStatisticsHolder[3]" statIcon="fa-user-times" />
       </div>
       <div class="column is-4 has-text-centered">
-        <statistic statTitle="Deaths" v-bind:statDesc="steamUserStats[1].value" statIcon="fa-remove" />
-        <statistic statTitle="Wins" v-bind:statDesc="steamUserStats[5].value" statIcon="fa-trophy" />
-        <statistic statTitle="Bombs Defused" v-bind:statDesc="steamUserStats[4].value" statIcon="fa-bomb" />
-        <statistic statTitle="Money Earned" v-bind:statDesc="steamUserStats[7].value" statIcon="fa-usd" />
+        <statistic statTitle="Deaths" v-bind:statDesc="steamStatisticsHolder[4]" statIcon="fa-remove" />
+        <statistic statTitle="Wins" v-bind:statDesc="steamStatisticsHolder[5]" statIcon="fa-trophy" />
+        <statistic statTitle="Bombs Defused" v-bind:statDesc="steamStatisticsHolder[6]" statIcon="fa-bomb" />
+        <statistic statTitle="Money Earned" v-bind:statDesc="steamStatisticsHolder[7]" statIcon="fa-usd" />
       </div>
     </div>
     <div class="columns">
@@ -42,7 +42,7 @@
 
 <script>
 import axios from 'axios';
-import async from 'async';
+// import async from 'async';
 import steamAPIKey from '../assets/keys';
 import Statistic from './Statistic';
 
@@ -51,27 +51,21 @@ export default {
   components: {
     Statistic,
   },
-  beforeMount() {
-    async.series([
-      (callback) => {
-        this.getSteamID();
-        callback(null, 'Get ID');
-      },
-      (callback) => {
-        setTimeout(() => {
-          this.getSteamStats();
-          callback(null, 'Get Stats');
-        }, 1000);
-      },
-      (callback) => {
-        this.getGameStats();
-        callback(null, 'Get Game Stats');
-      },
-    ], (error, results) => {
-      console.log(results);
-    });
+  created() {
+    this.requestData();
   },
   methods: {
+    async requestData() {
+      try {
+        await this.getSteamID();
+        await setTimeout(() => {
+          this.getSteamStats();
+          this.getGameStats();
+        }, 1000);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     getSteamID() {
       axios.get(`http://localhost:3000/steamid?username=${this.$route.params.username}`)
         .then((response) => {
@@ -95,7 +89,16 @@ export default {
       axios.get(`http://localhost:3000/gamestats?steamid=${this.steamUserID}`)
         .then((response) => {
           this.steamUserStats = response.data.playerstats.stats;
-          console.log(this.steamUserStats);
+          this.steamStatisticsHolder = [
+            this.steamUserStats[0].value,
+            this.steamUserStats[2].value,
+            this.steamUserStats[3].value,
+            this.steamUserStats[6].value,
+            this.steamUserStats[1].value,
+            this.steamUserStats[5].value,
+            this.steamUserStats[4].value,
+            this.steamUserStats[7].value,
+          ];
         })
         .catch((error) => {
           console.log(error);
@@ -109,6 +112,16 @@ export default {
       steamUserStats: [],
       steamURLValue: '',
       steamUserAvatar: '',
+      steamStatisticsHolder: [
+        'Kills Holder',
+        'Time Holder',
+        'Planted Holder',
+        'Damage Holder',
+        'Deaths Holder',
+        'Wins Holder',
+        'Defused Holder',
+        'Money Holder',
+      ],
       url: `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${steamAPIKey}&vanityurl=${this.$route.params.username}`,
     };
   },
