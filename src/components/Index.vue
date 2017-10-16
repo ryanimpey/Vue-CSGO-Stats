@@ -2,13 +2,21 @@
   <div>
     <a class="button is-success" @click="launchHelpDialog">Need help?</a>
     <div>
+      <!-- STATISTIC COMPONENT DEMO
+        <statistic statTitle="test" statDesc="test desc" statIcon="fa-steam" />
+      -->
     </div>
   </div>
 </template>
 
 <script>
+import Statistic from './Statistic';
+
 export default {
   name: 'Index',
+  components: {
+    Statistic,
+  },
   methods: {
     launchHelpDialog() {
       this.$dialog.alert({
