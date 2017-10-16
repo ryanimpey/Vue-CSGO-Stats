@@ -10,15 +10,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Index',
       component: Index,
       meta: { title: 'CSGO Stats Viewer' },
     },
     {
-      path: '/user/:username',
-      name: 'Profile',
+      name: 'stats',
+      path: '/stats',
       component: Profile,
       meta: { title: 'CSGO Stats Viewer' },
+      props: true,
     },
   ],
 });

@@ -2,29 +2,29 @@
   <div class="Profile column">
     <div class="columns">
       <div class="column is-2 is-offset-4 profile-text">
-        <p class="title is-4">{{ this.$route.params.username }} </p>
+        <p class="title is-4">{{ steamName }} </p>
         <p class="subtitle is-6">
-          <a target="_blank" rel="noopener noreferrer" v-bind:href="steamURLValue">{{ steamUserID }}</a>
+          <a target="_blank" rel="noopener noreferrer" v-bind:href="steamProfile">{{ steamID }}</a>
         </p>
 
       </div>
       <div class="column is-2">
-        <img v-bind:src="steamUserAvatar" class="profile-avatar is-pulled-right">
+        <img v-bind:src="steamPicture" class="profile-avatar is-pulled-right">
       </div>
     </div>
     <br>
     <div class="columns">
       <div class="column is-4 is-offset-2 has-text-centered">
-        <statistic statTitle="Kills" v-bind:statDesc="steamStatisticsHolder[0]" statIcon="fa-superpowers" />
-        <statistic statTitle="Time Played" v-bind:statDesc="steamStatisticsHolder[1]" statIcon="fa-clock-o" />
-        <statistic statTitle="Bombs Planted" v-bind:statDesc="steamStatisticsHolder[2]" statIcon="fa-bomb" />
-        <statistic statTitle="Damage Done" v-bind:statDesc="steamStatisticsHolder[3]" statIcon="fa-user-times" />
+        <statistic statTitle="Kills" v-bind:statDesc="steamStats[0].value" statIcon="fa-superpowers" />
+        <statistic statTitle="Time Played" v-bind:statDesc="steamStats[1].value" statIcon="fa-clock-o" />
+        <statistic statTitle="Bombs Planted" v-bind:statDesc="steamStats[2].value" statIcon="fa-bomb" />
+        <statistic statTitle="Damage Done" v-bind:statDesc="steamStats[3].value" statIcon="fa-user-times" />
       </div>
       <div class="column is-4 has-text-centered">
-        <statistic statTitle="Deaths" v-bind:statDesc="steamStatisticsHolder[4]" statIcon="fa-remove" />
-        <statistic statTitle="Wins" v-bind:statDesc="steamStatisticsHolder[5]" statIcon="fa-trophy" />
-        <statistic statTitle="Bombs Defused" v-bind:statDesc="steamStatisticsHolder[6]" statIcon="fa-bomb" />
-        <statistic statTitle="Money Earned" v-bind:statDesc="steamStatisticsHolder[7]" statIcon="fa-usd" />
+        <statistic statTitle="Deaths" v-bind:statDesc="steamStats[4].value" statIcon="fa-remove" />
+        <statistic statTitle="Wins" v-bind:statDesc="steamStats[5].value" statIcon="fa-trophy" />
+        <statistic statTitle="Bombs Defused" v-bind:statDesc="steamStats[6].value" statIcon="fa-bomb" />
+        <statistic statTitle="Money Earned" v-bind:statDesc="steamStats[7].value" statIcon="fa-usd" />
       </div>
     </div>
     <div class="columns">
@@ -41,9 +41,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-// import async from 'async';
-import steamAPIKey from '../assets/keys';
 import Statistic from './Statistic';
 
 export default {
@@ -51,78 +48,30 @@ export default {
   components: {
     Statistic,
   },
-  created() {
-    this.requestData();
+  beforeMount() {
+    console.log(this.steamName);
   },
-  methods: {
-    async requestData() {
-      try {
-        await this.getSteamID();
-        await setTimeout(() => {
-          this.getSteamStats();
-          this.getGameStats();
-        }, 1000);
-      } catch (error) {
-        console.error(error);
-      }
+  props: {
+    steamName: {
+      required: true,
+      type: String,
     },
-    getSteamID() {
-      axios.get(`http://localhost:3000/steamid?username=${this.$route.params.username}`)
-        .then((response) => {
-          this.steamUserID = response.request.response;
-          this.steamURLValue = `http://steamcommunity.com/profiles/${this.steamUserID}`;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    steamID: {
+      type: String,
+      required: true,
     },
-    getSteamStats() {
-      axios.get(`http://localhost:3000/steamstats?steamid=${this.steamUserID}`)
-        .then((response) => {
-          this.steamUserAvatar = response.data.avatarmedium;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    steamPicture: {
+      type: String,
+      required: true,
     },
-    getGameStats() {
-      axios.get(`http://localhost:3000/gamestats?steamid=${this.steamUserID}`)
-        .then((response) => {
-          this.steamUserStats = response.data.playerstats.stats;
-          this.steamStatisticsHolder = [
-            this.steamUserStats[0].value,
-            this.steamUserStats[2].value,
-            this.steamUserStats[3].value,
-            this.steamUserStats[6].value,
-            this.steamUserStats[1].value,
-            this.steamUserStats[5].value,
-            this.steamUserStats[4].value,
-            this.steamUserStats[7].value,
-          ];
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    steamStats: {
+      type: Array,
+      required: true,
     },
   },
   data() {
     return {
-      msg: this.$route.params.username,
-      steamUserID: 'holder',
-      steamUserStats: [],
-      steamURLValue: '',
-      steamUserAvatar: '',
-      steamStatisticsHolder: [
-        'Kills Holder',
-        'Time Holder',
-        'Planted Holder',
-        'Damage Holder',
-        'Deaths Holder',
-        'Wins Holder',
-        'Defused Holder',
-        'Money Holder',
-      ],
-      url: `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${steamAPIKey}&vanityurl=${this.$route.params.username}`,
+      steamProfile: `steamcommunity.com/profiles/${this.steamID}`,
     };
   },
 };

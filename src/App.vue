@@ -14,7 +14,6 @@
             <div class="field has-addons">
               <div class="control has-icons-right">
                 <input class="input" type="text" v-model="steamUsername" placeholder="Steam Username">
-                <h2>{{steamUsername}}</h2>
                 <span class="icon is-small is-right">
                   <i class="fa fa-steam"></i>
                 </span>
@@ -81,13 +80,18 @@ export default {
         type: 'is-success',
       });
       console.log(`Beforepush: ${this.steamUsername}`);
+
+      // Disable loading
+      this.isLoading = false;
+
       // Push URL to Router
       this.routerPush();
     },
     routerPush() {
       Router.push({
-        path: `user/${this.steamUsername}`,
+        name: 'stats',
         params: {
+          steamName: this.steamUsername,
           steamID: this.steamID,
           steamPicture: this.steamProfilePicture,
           steamStats: this.steamCSGOStats,

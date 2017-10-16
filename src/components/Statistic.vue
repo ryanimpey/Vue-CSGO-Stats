@@ -15,6 +15,7 @@ export default {
   name: 'Statistic',
   props: {
     statTitle: {
+      type: String,
       required: true,
     },
     statDesc: {
