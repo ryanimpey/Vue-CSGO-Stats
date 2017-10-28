@@ -26,3 +26,19 @@ In order to make a connection to the steam dev servers, you'll need:
 * A local server such as Express to make a GET request (CORS)
 
 Or you can use the one listed here! (Listing coming soon!)
+
+
+#### Once a connection has been made:
+
+* Enter your steamID in the box in the center of the page
+* Press enter or click the button
+* Stats shown below:
+    * Kills
+    * Time Played
+    * Bombs Planted
+    * Damage Done
+    * Deaths
+    * Wins
+    * Bombs Defused
+    * Money Earned
+* Click advanced to be shown advanced data, such as map statistics, weapon data and more! (Coming Soon!!)
